@@ -1,0 +1,6 @@
+@import '../../../styles/variables.scss';
+
+.days {
+  grid-template-columns: repeat(7, minmax(200px, 1fr));
+  display: grid;
+}

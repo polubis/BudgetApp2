@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import AppRoutes from './AppRoutes';
 import WebFont from 'webfontloader';
+
+import FirebaseProvider from 'providers/firebase/FirebaseProvider';
 
 import * as serviceWorker from './serviceWorker';
 
-import './index.scss';
+import './styles/index.scss';
 
 WebFont.load({
   google: {
@@ -13,7 +15,12 @@ WebFont.load({
   }
 });
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <FirebaseProvider>
+    <AppRoutes />
+  </FirebaseProvider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

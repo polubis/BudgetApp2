@@ -1,0 +1,21 @@
+@import '../../../styles/variables.scss';
+
+.labels {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(200px, 1fr));
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  align-items: center;
+  height: 50px;
+  border-top: 1px solid $border-gray;
+  border-bottom: 1px solid $border-gray;
+  background: $white;
+
+  .label {
+    padding: 15px;
+    font-weight: 500;
+    color: $font-gray;
+    border-right: 1px solid $border-gray;
+  }
+}

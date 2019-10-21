@@ -1,0 +1,22 @@
+@import '../../../styles/variables.scss';
+
+button.year-picker {
+  background: $light-blue;
+  color: $white;
+  padding: 8px 8px 8px 18px;
+
+  svg {
+    margin-left: 15px;
+    transition: .3s transform $transition;
+  }
+
+  &:hover {
+    background: $light-blue;
+  }
+
+  &-expanded {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}

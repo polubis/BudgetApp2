@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+
+.months .month {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  min-width: unset;
+
+  &:not(:first-of-type) {
+    margin-left: 5px;
+  }
+
+  &.current {
+    background: $light-blue;
+    color: $white;
+    box-shadow: $thin-shadow;
+  }
+}

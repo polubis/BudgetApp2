@@ -1,0 +1,35 @@
+@import '../../../../styles/variables.scss';
+
+$today: #e8f0fe9e;
+
+.day {
+  padding: 15px;
+  border-right: 1px solid $border-gray;
+  border-bottom: 1px solid $border-gray;
+  position: relative;
+  height: 200px;
+
+  &.today {
+    background: $today;
+    border: none;
+  }
+
+  &.blank {
+    background: $blank-day;
+  }
+
+  .expenses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-gap: 7.5px;
+    overflow: hidden;
+  }
+
+  .toolbox {
+    margin-top: auto;
+
+    .number {
+      font-size: 12px;
+    }
+  }
+}

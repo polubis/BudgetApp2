@@ -1,0 +1,30 @@
+@import '../../styles/variables.scss';
+
+#calendar-page {
+  main {
+    flex-grow: 1;
+    padding: 15px;
+    background: $background-gray;
+
+    .calendar {
+      background: $white;
+      box-shadow: $thin-shadow;
+
+      header {
+        padding: 20px 15px;
+
+        .year-picker {
+          margin-left: auto;
+        }
+
+        .divider {
+          height: 40px;
+          width: 2px;
+          background: $light-blue;
+          margin: 0 20px 0 24px;
+          display: block;
+        }
+      }
+    }
+  }
+}
