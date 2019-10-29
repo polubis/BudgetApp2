@@ -12,7 +12,7 @@ type DayProps = {
 const Day: React.FC<DayProps> = ({ dayNumber, additionalClasses }) => {
   return (
     <div className={`day col ${additionalClasses}`}>
-      <div className='expenses'>
+      <div className='expenses wrap'>
         <Chip variant='outlined' color='primary' label='43' />
         <Chip variant='outlined' color='primary' label='4.33' />
         <Chip variant='outlined' color='primary' label='4.33' />

@@ -12,6 +12,7 @@ import YearPicker from './year-picker/year-picker';
 
 import { MONTH_NAMES } from './utils/dateAndTime';
 import { useCalendarDateParams, getCalendarUrl, useQuery } from './utils/routingAndNavigation';
+import WithPermissions from 'pages/WithPermissions';
 
 import './CalendarPage.scss';
 
@@ -71,4 +72,4 @@ const CalendarPage: React.FC = () => {
   );
 };
 
-export default CalendarPage;
+export default WithPermissions(CalendarPage);

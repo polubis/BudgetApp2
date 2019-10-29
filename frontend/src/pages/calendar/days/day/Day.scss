@@ -3,7 +3,7 @@
 $today: #e8f0fe9e;
 
 .day {
-  padding: 15px;
+  padding: 15px 5px 15px 15px;
   border-right: 1px solid $border-gray;
   border-bottom: 1px solid $border-gray;
   position: relative;
@@ -19,10 +19,13 @@ $today: #e8f0fe9e;
   }
 
   .expenses {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-    grid-gap: 7.5px;
     overflow: hidden;
+
+    & > div {
+      border-radius: 2px;
+      min-width: 50px;
+      margin: 0 8px 8px 0;
+    }
   }
 
   .toolbox {

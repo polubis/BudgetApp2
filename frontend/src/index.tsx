@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppRoutes from './AppRoutes';
+import AppPages from './pages/AppPages';
 import WebFont from 'webfontloader';
 
+import AuthorizationProvider from 'providers/authorization/AuthorizationProvider';
 import FirebaseProvider from 'providers/firebase/FirebaseProvider';
 
 import * as serviceWorker from './serviceWorker';
@@ -17,7 +18,9 @@ WebFont.load({
 
 ReactDOM.render(
   <FirebaseProvider>
-    <AppRoutes />
+    <AuthorizationProvider>
+      <AppPages />
+    </AuthorizationProvider>
   </FirebaseProvider>,
   document.getElementById('root')
 );

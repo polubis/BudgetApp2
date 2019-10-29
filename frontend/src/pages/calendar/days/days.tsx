@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import Day from './day/Day';
+import { DAYS_IN_WEEK_COUNT } from '../utils/dateAndTime';
 
 import './days.scss';
 
@@ -61,7 +62,7 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear }) => {
 
     const rightBlanks = () => {
       const blanks: JSX.Element[] = [];
-      const limit = 7 - (leftBlanksAndDays.length % 7);
+      const limit = DAYS_IN_WEEK_COUNT - (leftBlanksAndDays.length % DAYS_IN_WEEK_COUNT);
 
       for (let d = 1; d <= limit; d++) {
         blanks.push(<Day key={'rightBlank' + d} dayNumber={d} additionalClasses='blank' />);

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 
 import { FirebaseContext } from 'providers/firebase/FirebaseProvider';
 import UsersService from 'services/UsersService';
+import WithPermissions from 'pages/WithPermissions';
 
 import './RegisterPage.scss';
 
@@ -41,4 +42,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default WithPermissions(RegisterPage, false);

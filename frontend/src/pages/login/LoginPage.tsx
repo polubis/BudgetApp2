@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import { FirebaseContext } from 'providers/firebase/FirebaseProvider';
+import WithPermissions from 'pages/WithPermissions';
 
 import './LoginPage.scss';
 
@@ -14,8 +15,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const result = await signInWithCredentials(email, password);
-      console.log(result);
+      await signInWithCredentials(email, password);
     } catch (err) {
       console.log(err);
     }
@@ -38,4 +38,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default WithPermissions(LoginPage, false);

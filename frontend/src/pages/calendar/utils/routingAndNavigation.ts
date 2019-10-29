@@ -2,7 +2,7 @@ import { useLocation } from 'react-router';
 import moment from 'moment';
 
 import { FIRST_MONTH, LAST_MONTH, MIN_YEAR, MAX_YEAR } from 'pages/calendar/utils/dateAndTime';
-import { ROUTES } from 'models/routing/Routes';
+import { PAGES } from 'pages/Pages';
 
 export type CalendarDateParams = {
   month: number;
@@ -38,5 +38,5 @@ export const useQuery = () => {
 };
 
 export const getCalendarUrl = (month: number, year: number): string => {
-  return `${ROUTES.CALENDAR_ROUTE}?month=${month}&year=${year}`;
+  return `${PAGES.CALENDAR}?month=${month}&year=${year}`;
 };

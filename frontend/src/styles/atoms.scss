@@ -18,6 +18,11 @@
   flex-flow: column;
 }
 
+.wrap {
+  display: flex;
+  flex-flow: wrap;
+}
+
 .mh-100vh {
   min-height: 100vh;
 }
