@@ -1,7 +1,5 @@
 @import '../../../../styles/variables.scss';
 
-$today: #e8f0fe9e;
-
 .day {
   padding: 15px 5px 15px 15px;
   border-right: 1px solid $border-gray;
@@ -10,8 +8,26 @@ $today: #e8f0fe9e;
   height: 200px;
 
   &.today {
-    background: $today;
+    background: $main;
     border: none;
+
+    .expenses > div {
+      color: $white;
+      border-color: $white;
+    }
+
+    .toolbox {
+      .number {
+        color: $white;
+      }
+      .add-expense-btn {
+        border: 1px solid $white;
+
+        svg {
+          color: $white;
+        }
+      }
+    }
   }
 
   &.blank {
@@ -32,7 +48,17 @@ $today: #e8f0fe9e;
     margin-top: auto;
 
     .number {
-      font-size: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      color: $font-gray;
+    }
+
+    .add-expense-btn {
+      margin: 0 5px 0 auto;
+
+      svg {
+        color: $main;
+      }
     }
   }
 }

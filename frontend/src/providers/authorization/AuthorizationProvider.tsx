@@ -5,7 +5,6 @@ import { FirebaseContext } from 'providers/firebase/FirebaseProvider';
 interface AuthorizedUser {
   email: string;
   uid: string;
-  refreshToken: string;
   displayName: string | null;
   phoneNumber: string | null;
   photoURL: string | null;
@@ -20,7 +19,7 @@ interface AuthorizationData {
 const initialAuthorizationData = {
   isAuthorized: false,
   isAuthorizing: true,
-  authUser: null,
+  authUser: null
 };
 
 const Context = React.createContext<AuthorizationData>({ ...initialAuthorizationData });
@@ -32,12 +31,12 @@ const AuthorizationProvider: React.FC = ({ children }) => {
   useEffect(() => {
     const listener = auth.onAuthStateChanged(authUser => {
       if (authUser && authUser.email) {
-        const { email, refreshToken, phoneNumber, photoURL, uid, displayName } = authUser;
+        const { email, phoneNumber, photoURL, uid, displayName } = authUser;
 
         setAuthorizationData({
           isAuthorized: true,
           isAuthorizing: false,
-          authUser: { email, refreshToken, phoneNumber, photoURL, uid, displayName }
+          authUser: { email, phoneNumber, photoURL, uid, displayName }
         });
       }
     });

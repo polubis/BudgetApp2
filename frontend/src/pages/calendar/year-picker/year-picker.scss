@@ -1,7 +1,7 @@
 @import '../../../styles/variables.scss';
 
 button.year-picker {
-  background: $light-blue;
+  background: $main;
   color: $white;
   padding: 8px 8px 8px 18px;
 
@@ -11,7 +11,7 @@ button.year-picker {
   }
 
   &:hover {
-    background: $light-blue;
+    background: $main;
   }
 
   &-expanded {
