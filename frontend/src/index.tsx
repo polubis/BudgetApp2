@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import AppPages from './pages/AppPages';
 import WebFont from 'webfontloader';
 
-import AuthorizationProvider from 'providers/authorization/AuthorizationProvider';
-import FirebaseProvider from 'providers/firebase/FirebaseProvider';
+import AuthorizationProvider from 'features/authorization';
+import FirebaseProvider from 'features/firebase';
 
 import * as serviceWorker from './serviceWorker';
 

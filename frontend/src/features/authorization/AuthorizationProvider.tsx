@@ -1,28 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 
-import { FirebaseContext } from 'providers/firebase/FirebaseProvider';
+import { AuthorizationData } from '.';
+import { FirebaseContext } from 'features/firebase';
 
-interface AuthorizedUser {
-  email: string;
-  uid: string;
-  displayName: string | null;
-  phoneNumber: string | null;
-  photoURL: string | null;
-}
-
-interface AuthorizationData {
-  isAuthorized: boolean;
-  isAuthorizing: boolean;
-  authUser: AuthorizedUser | null;
-}
-
-const initialAuthorizationData = {
+const initialAuthorizationData: AuthorizationData = {
   isAuthorized: false,
   isAuthorizing: true,
   authUser: null
 };
 
-const Context = React.createContext<AuthorizationData>({ ...initialAuthorizationData });
+const Context = React.createContext(initialAuthorizationData);
 
 const AuthorizationProvider: React.FC = ({ children }) => {
   const [authorizationData, setAuthorizationData] = useState<AuthorizationData>(initialAuthorizationData);

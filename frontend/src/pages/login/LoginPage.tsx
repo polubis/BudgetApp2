@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
-import { FirebaseContext } from 'providers/firebase/FirebaseProvider';
-import WithPermissions from 'pages/WithPermissions';
+import { FirebaseContext } from 'features/firebase';
+import { WithPermissions } from 'features/authorization';
 
 import './LoginPage.scss';
 

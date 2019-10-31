@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { Button, Menu, MenuItem, Tooltip } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 
-import { AVAILABLE_YEARS } from 'pages/calendar/utils/dateAndTime';
+import { AVAILABLE_YEARS } from 'features/date-time-management';
 
 import './year-picker.scss';
 
@@ -23,7 +23,7 @@ const YearPicker = ({ activeYear, onYearChange }: YearPickerProps) => {
     setAnchorEl(null);
   }, []);
 
-  const handleYearClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleYearClick = (e: React.MouseEvent<HTMLElement>): void => {
     handleMenuClose();
     onYearChange(+e.currentTarget.getAttribute('data-year')!);
   };

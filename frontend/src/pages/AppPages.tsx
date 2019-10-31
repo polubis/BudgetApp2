@@ -5,7 +5,7 @@ import CalendarPage from 'pages/calendar/CalendarPage';
 import LoginPage from 'pages/login/LoginPage';
 import RegisterPage from 'pages/register/RegisterPage';
 
-import { PAGES } from 'pages/Pages';
+import { PAGES } from 'features/routing-and-navigation';
 
 const AppPages = (): ReactElement<BrowserRouter> => (
   <BrowserRouter>

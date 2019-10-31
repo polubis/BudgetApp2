@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AuthorizationContext } from 'providers/authorization/AuthorizationProvider';
+import { AuthorizationContext } from 'features/authorization';
 
-const WithPermissions = <P extends object>(Component: React.ComponentType<P>, needsAuthorization: boolean = true) => {
+export const WithPermissions = <P extends object>(Component: React.ComponentType<P>, needsAuthorization: boolean = true) => {
   return (props: P) => {
     if (needsAuthorization) {
       return (
@@ -19,5 +19,3 @@ const WithPermissions = <P extends object>(Component: React.ComponentType<P>, ne
     );
   };
 };
-
-export default WithPermissions;
