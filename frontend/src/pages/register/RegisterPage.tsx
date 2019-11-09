@@ -1,7 +1,4 @@
-import React, { useState, useContext } from 'react';
-
-import { FirebaseContext } from 'features/firebase';
-import { usersService, WithPermissions } from 'features/authorization';
+import React, { useState } from 'react';
 
 import './RegisterPage.scss';
 
@@ -9,23 +6,17 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { createUserByCredentials } = useContext(FirebaseContext);
-
   const handleAddUser = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const authUser = await createUserByCredentials(email, password);
-      if (authUser.user) {
-        await usersService.addUser(email);
-      }
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className='row-c-c mh-100vh' id='register-page'>
+    <div className='centered mh-100vh' id='register-page'>
       <form onSubmit={handleAddUser}>
         <fieldset>
           <input value={email} onChange={e => setEmail(e.target.value)} placeholder='Type email in' />
@@ -41,4 +32,4 @@ const RegisterPage = () => {
   );
 };
 
-export default WithPermissions(RegisterPage, false);
+export default RegisterPage;

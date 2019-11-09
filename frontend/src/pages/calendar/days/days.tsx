@@ -1,26 +1,24 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useContext, useState } from 'react';
+import { finalize } from 'rxjs/operators';
 import moment from 'moment';
 
 import Day from './day/day';
-import {
-  DAYS_IN_WEEK_COUNT,
-  FIRST_MONTH,
-  LAST_MONTH,
-  getNumberOfDaysInMonth,
-  getFirstDayOfMonth,
-  toStringDay,
-  toStringMonth
-} from 'features/date-time-management';
+
+import { ExpensesContext, ProvidedExpensesContext } from 'providers/ExpensesProvider';
+import { getFirstDayOfMonth, getNumberOfDaysInMonth, toStringMonth, toStringDay } from 'helpers/dateAndTime';
+import { FIRST_MONTH, DAYS_IN_WEEK_COUNT, LAST_MONTH } from 'models/consts/DateAndTime';
 
 import './days.scss';
 
-type DaysProps = {
+interface DaysProps {
   activeMonth: number;
   activeYear: number;
-  onAddExpenseClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-};
+}
 
-const Days: React.FC<DaysProps> = ({ activeMonth, activeYear, onAddExpenseClick }) => {
+const Days: React.FC<DaysProps> = ({ activeMonth, activeYear }) => {
+  const [isLoadingExpenses, setIsLoadingExpenses] = useState(false);
+  const { expenses, handleGetExpensesByYear }: ProvidedExpensesContext = useContext(ExpensesContext);
+
   const activeDate = moment()
     .month(activeMonth - 1)
     .year(activeYear);
@@ -40,16 +38,9 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear, onAddExpenseClick 
     }
 
     for (let d = 0; d < firstDayOfMonth; d++) {
-      blanks.push(
-        <Day
-          key={'leftBlank' + d}
-          day={toStringDay(startDay + d)}
-          month={month}
-          year={year}
-          additionalClasses='blank'
-          onAddExpenseClick={onAddExpenseClick}
-        />
-      );
+      const date: string = `${toStringDay(startDay + d)}/${month}/${year}`;
+
+      blanks.push(<Day key={date} date={date} expenses={expenses[date]} additionalClasses='blank' />);
     }
 
     return blanks;
@@ -66,17 +57,12 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear, onAddExpenseClick 
       return todayYear === activeYear && todayMonth === activeMonth && todayDay === day;
     };
 
+    const month: string = toStringMonth(activeMonth);
+
     for (let d = 1; d <= activeDate.daysInMonth(); d++) {
-      days.push(
-        <Day
-          key={d}
-          day={toStringDay(d)}
-          month={toStringMonth(activeMonth)}
-          year={activeYear}
-          additionalClasses={isToday(d) ? 'today' : ''}
-          onAddExpenseClick={onAddExpenseClick}
-        />
-      );
+      const date: string = `${toStringDay(d)}/${month}/${activeYear}`;
+
+      days.push(<Day key={date} date={date} expenses={expenses[date]} additionalClasses={isToday(d) ? 'today' : ''} />);
     }
 
     return days;
@@ -98,16 +84,9 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear, onAddExpenseClick 
     }
 
     for (let d = 1; d <= limit; d++) {
-      blanks.push(
-        <Day
-          key={d + 'rightBlank'}
-          day={toStringDay(d)}
-          month={month}
-          year={year}
-          additionalClasses='blank'
-          onAddExpenseClick={onAddExpenseClick}
-        />
-      );
+      const date: string = `${toStringDay(d)}/${month}/${year}`;
+
+      blanks.push(<Day key={date} date={date} expenses={expenses[date]} additionalClasses='blank' />);
     }
 
     return blanks;
@@ -115,8 +94,22 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear, onAddExpenseClick 
 
   const rightBlanks: JSX.Element[] = renderRightBlanks();
 
+  useEffect(() => {
+    const areExpensesLoaded: boolean = Object.keys(expenses).length !== 0;
+
+    if (areExpensesLoaded) {
+      setIsLoadingExpenses(true);
+    }
+
+    handleGetExpensesByYear(activeYear)
+      .pipe(finalize(() => setIsLoadingExpenses(false)))
+      .subscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeYear]);
+
   return (
     <div className='days'>
+      {isLoadingExpenses && <div className='days-loader' />}
       {leftBlanks}
       {days}
       {rightBlanks}

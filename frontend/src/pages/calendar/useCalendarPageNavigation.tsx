@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router';
 
-import { PAGES } from 'features/routing-and-navigation';
-import { FIRST_MONTH, LAST_MONTH, MIN_YEAR, MAX_YEAR } from 'features/date-time-management';
+import { FIRST_MONTH, LAST_MONTH, MIN_YEAR, MAX_YEAR } from 'models/consts/DateAndTime';
+import { PAGES } from 'models/routing';
 
-export interface NavigationQueries {
+interface NavigationQueries {
   month: number;
   year: number;
 }
 
-export interface UseCalendarPageNavigation extends NavigationQueries {
+interface UseCalendarPageNavigation extends NavigationQueries {
   setQuery: (month: number, year: number, shouldReplace?: boolean) => void;
 }
 

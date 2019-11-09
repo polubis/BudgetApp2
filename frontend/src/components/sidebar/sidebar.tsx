@@ -5,9 +5,9 @@ import LogoIcon from '@material-ui/icons/Explore';
 
 import './sidebar.scss';
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   return (
-    <aside className='col' id='sidebar'>
+    <nav id='sidebar' className='col'>
       <Button>
         <LogoIcon />
       </Button>
@@ -20,7 +20,7 @@ const Sidebar: React.FC = () => {
       <Button>
         <LogoIcon />
       </Button>
-    </aside>
+    </nav>
   );
 };
 

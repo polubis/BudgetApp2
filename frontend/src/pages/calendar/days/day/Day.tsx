@@ -1,37 +1,25 @@
 import React from 'react';
 
-import { Chip, IconButton, Tooltip } from '@material-ui/core';
-import { Add as AddIcon } from '@material-ui/icons';
+import { Chip } from '@material-ui/core';
+
+import { ExpenseEntity } from 'models/entities';
 
 import './day.scss';
 
-type DayProps = {
-  day: string;
-  month: string;
-  year: number;
+interface DayProps {
+  expenses: ExpenseEntity[];
+  date: string;
   additionalClasses: string;
-  onAddExpenseClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-};
+}
 
-const Day: React.FC<DayProps> = ({ day, month, year, additionalClasses, onAddExpenseClick }) => {
-  const date: string = `${day}-${month}-${year}`;
-
+const Day: React.FC<DayProps> = ({ date, expenses, additionalClasses }) => {
   return (
     <div className={`day col ${additionalClasses}`}>
       <div className='expenses wrap'>
-        <Chip variant='outlined' color='primary' label='43' />
-        <Chip variant='outlined' color='primary' label='4.33' />
-        <Chip variant='outlined' color='primary' label='4.33' />
-        <Chip variant='outlined' color='primary' label='4.33' />
-        <Chip variant='outlined' color='primary' label='4.33' />
+        {expenses && expenses.map(expense => <Chip key={expense.id} variant='outlined' color='primary' label={expense.cost} />)}
       </div>
       <footer className='toolbox row'>
-        <span className='date row-c-c'>{date}</span>
-        <Tooltip title='Add new expense'>
-          <IconButton data-attr-date={date} className='add-expense-btn' aria-label='delete' size='small' onClick={onAddExpenseClick}>
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
+        <span className='date centered'>{date}</span>
       </footer>
     </div>
   );

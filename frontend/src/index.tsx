@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import AppPages from './pages/AppPages';
 import WebFont from 'webfontloader';
 
-import AuthorizationProvider from 'features/authorization';
-import FirebaseProvider from 'features/firebase';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -17,11 +17,9 @@ WebFont.load({
 });
 
 ReactDOM.render(
-  <FirebaseProvider>
-    <AuthorizationProvider>
-      <AppPages />
-    </AuthorizationProvider>
-  </FirebaseProvider>,
+  <MuiPickersUtilsProvider utils={MomentUtils}>
+    <AppPages />
+  </MuiPickersUtilsProvider>,
   document.getElementById('root')
 );
 

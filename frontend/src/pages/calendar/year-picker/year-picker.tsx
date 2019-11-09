@@ -3,11 +3,11 @@ import React, { useState, useCallback } from 'react';
 import { Button, Menu, MenuItem, Tooltip } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 
-import { AVAILABLE_YEARS } from 'features/date-time-management';
+import { AVAILABLE_YEARS } from 'models/consts/DateAndTime';
 
 import './year-picker.scss';
 
-type YearPickerProps = {
+interface YearPickerProps {
   activeYear: number;
   onYearChange: (year: number) => void;
 };

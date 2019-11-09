@@ -1,7 +1,4 @@
-import React, { useState, useContext } from 'react';
-
-import { FirebaseContext } from 'features/firebase';
-import { WithPermissions } from 'features/authorization';
+import React, { useState } from 'react';
 
 import './LoginPage.scss';
 
@@ -9,20 +6,17 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signInWithCredentials } = useContext(FirebaseContext);
-
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      await signInWithCredentials(email, password);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className='row-c-c mh-100vh' id='login-page'>
+    <div className='centered mh-100vh' id='login-page'>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <input value={email} onChange={e => setEmail(e.target.value)} placeholder='Type email in' />
@@ -38,4 +32,4 @@ const LoginPage = () => {
   );
 };
 
-export default WithPermissions(LoginPage, false);
+export default LoginPage;

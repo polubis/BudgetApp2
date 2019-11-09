@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { finalize } from 'rxjs/operators';
 import moment from 'moment';
 
 import {
@@ -12,57 +13,60 @@ import {
   FormControl,
   FormHelperText,
   Input,
-  InputLabel,
-  TextField
+  InputLabel
 } from '@material-ui/core';
+import { DateTimePicker, MaterialUiPickersDate } from '@material-ui/pickers';
 
-import { expensesService, Expense } from 'features/expenses';
-import { getTime } from 'features/date-time-management';
-import { useAuthUser } from 'features/authorization';
+import { DATE_TIME_FORMATS } from 'models/consts/DateAndTime';
+import { ProvidedExpensesContext, ExpensesContext } from 'providers/ExpensesProvider';
 
-type ExpenseFormDialog = {
-  expensesDate: string;
+interface ExpenseFormDialog {
   onDialogClose: () => void;
-};
+}
 
-const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ expensesDate, onDialogClose }) => {
-  const [isSavingExpense, setIsSavingExpense] = useState(false);
+const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
+  const [isAddingExpense, setIsAddingExpense] = useState(false);
   const [expenseFormData, setExpenseFormData] = useState({
     name: '',
     cost: 0.99,
-    time: getTime(moment()),
+    date: moment(),
     description: ''
   });
+  const { handleAddExpense }: ProvidedExpensesContext = useContext(ExpensesContext);
 
-  const authUser = useAuthUser();
-
-  const handleAddExpense = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (isSavingExpense) {
+    if (isAddingExpense) {
       return;
     }
 
-    try {
-      setIsSavingExpense(true);
-      const expense: Expense = { ...expenseFormData, cost: +expenseFormData.cost, date: expensesDate };
-      await expensesService.addExpense(authUser.email, expense);
-    } catch (err) {
-    } finally {
-      setIsSavingExpense(false);
-    }
+    setIsAddingExpense(true);
+
+    const { name, cost, date, description } = expenseFormData;
+
+    handleAddExpense({ name, cost, date: date.format(DATE_TIME_FORMATS.DATE_TIME), description })
+      .pipe(finalize(() => setIsAddingExpense(false)))
+      .subscribe();
   };
 
   const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: key } = e.currentTarget;
     const { value } = e.target;
-    setExpenseFormData(prevExpenseFormData => ({ ...prevExpenseFormData, [key]: value }));
+    setExpenseFormData({ ...expenseFormData, [key]: value });
+  };
+
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    if (!date) {
+      return;
+    }
+    setExpenseFormData({ ...expenseFormData, date });
   };
 
   return (
     <Dialog onClose={onDialogClose} aria-labelledby='customized-dialog-title' open>
-      {isSavingExpense ? 'Saving' : ''}
-      <DialogTitle>Create expense</DialogTitle>
+      {isAddingExpense ? 'Saving' : ''}
+      <DialogTitle>Add expense</DialogTitle>
       <DialogContent>
         <DialogContentText>Populated required fields and create your expense.</DialogContentText>
 
@@ -89,7 +93,7 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ expensesDate, onDialog
 
         <Box paddingTop={2}>
           <FormControl fullWidth>
-            <TextField id='time' label='Time' name='time' type='time' value={expenseFormData.time} onChange={handleTyping} />
+            <DateTimePicker autoOk ampm={false} value={expenseFormData.date} onChange={handleDateChange} label='Date and time' />
           </FormControl>
         </Box>
 
@@ -113,7 +117,7 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ expensesDate, onDialog
         <Button color='primary' onClick={onDialogClose}>
           Cancel
         </Button>
-        <Button color='primary' onClick={handleAddExpense}>
+        <Button color='primary' onClick={handleSubmit}>
           Submit
         </Button>
       </DialogActions>

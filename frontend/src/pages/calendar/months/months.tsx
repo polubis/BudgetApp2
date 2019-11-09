@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Button, Tooltip } from '@material-ui/core';
 
-import { MONTH_SYMBOLS, MONTH_NAMES } from 'features/date-time-management';
+import { MONTH_SYMBOLS, MONTH_NAMES } from 'models/consts/DateAndTime';
 
 import './months.scss';
 
-type MonthsProps = {
+interface MonthsProps {
   activeMonth: number;
   onMonthClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };

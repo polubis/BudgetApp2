@@ -1,13 +1,9 @@
 .row {
   display: flex;
-}
-
-.row-c {
-  display: flex;
   align-items: center;
 }
 
-.row-c-c {
+.centered {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,8 +17,4 @@
 .wrap {
   display: flex;
   flex-flow: wrap;
-}
-
-.mh-100vh {
-  min-height: 100vh;
 }
