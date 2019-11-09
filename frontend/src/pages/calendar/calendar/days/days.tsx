@@ -1,24 +1,21 @@
-import React, { memo, useEffect, useContext, useState } from 'react';
-import { finalize } from 'rxjs/operators';
+import React from 'react';
 import moment from 'moment';
 
 import Day from './day/day';
 
-import { ExpensesContext, ProvidedExpensesContext } from 'providers/ExpensesProvider';
+import { ExpensesByDateEntity } from 'models/entities';
 import { getFirstDayOfMonth, getNumberOfDaysInMonth, toStringMonth, toStringDay } from 'helpers/dateAndTime';
 import { FIRST_MONTH, DAYS_IN_WEEK_COUNT, LAST_MONTH } from 'models/consts/DateAndTime';
 
 import './days.scss';
 
 interface DaysProps {
+  expenses: ExpensesByDateEntity;
   activeMonth: number;
   activeYear: number;
 }
 
-const Days: React.FC<DaysProps> = ({ activeMonth, activeYear }) => {
-  const [isLoadingExpenses, setIsLoadingExpenses] = useState(false);
-  const { expenses, handleGetExpensesByYear }: ProvidedExpensesContext = useContext(ExpensesContext);
-
+const Days: React.FC<DaysProps> = ({ expenses, activeMonth, activeYear }) => {
   const activeDate = moment()
     .month(activeMonth - 1)
     .year(activeYear);
@@ -94,22 +91,8 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear }) => {
 
   const rightBlanks: JSX.Element[] = renderRightBlanks();
 
-  useEffect(() => {
-    const areExpensesLoaded: boolean = Object.keys(expenses).length !== 0;
-
-    if (areExpensesLoaded) {
-      setIsLoadingExpenses(true);
-    }
-
-    handleGetExpensesByYear(activeYear)
-      .pipe(finalize(() => setIsLoadingExpenses(false)))
-      .subscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeYear]);
-
   return (
     <div className='days'>
-      {isLoadingExpenses && <div className='days-loader' />}
       {leftBlanks}
       {days}
       {rightBlanks}
@@ -117,4 +100,4 @@ const Days: React.FC<DaysProps> = ({ activeMonth, activeYear }) => {
   );
 };
 
-export default memo(Days, (prev, next) => prev.activeMonth === next.activeMonth && prev.activeYear === next.activeYear);
+export default Days;

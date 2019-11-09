@@ -8,15 +8,15 @@ import './months.scss';
 
 interface MonthsProps {
   activeMonth: number;
-  onMonthClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onMonthChange: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Months: React.FC<MonthsProps> = ({ activeMonth, onMonthClick }) => {
+const Months: React.FC<MonthsProps> = ({ activeMonth, onMonthChange }) => {
   return (
     <div className='months'>
       {MONTH_SYMBOLS.map((msymbol, idx) => (
         <Tooltip key={msymbol} title={MONTH_NAMES[idx]}>
-          <Button data-idx={idx} onClick={onMonthClick} className={`month ${activeMonth - 1 === idx ? 'current' : ''}`}>
+          <Button data-idx={idx} onClick={onMonthChange} className={`month ${activeMonth - 1 === idx ? 'current' : ''}`}>
             {msymbol}
           </Button>
         </Tooltip>

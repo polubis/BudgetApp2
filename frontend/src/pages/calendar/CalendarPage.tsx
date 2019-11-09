@@ -1,16 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import moment from 'moment';
 
-import { Button } from '@material-ui/core';
-
-import Days from './days/days';
+import Calendar from './calendar/Calendar';
 import ExpenseFormDialog from './expense-form-dialog/expense-form-dialog';
-import Labels from './labels/labels';
-import Months from './months/months';
-import YearPicker from './year-picker/year-picker';
+import Header from './header/header';
 
 import ExpensesProvider from 'providers/ExpensesProvider';
-import { MONTH_NAMES } from 'models/consts/DateAndTime';
 import { useCalendarPageNavigation } from './useCalendarPageNavigation';
 
 import './CalendarPage.scss';
@@ -42,39 +37,20 @@ const CalendarPage: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <div id='calendar-page'>
-        <nav className='date-navigation row'>
-          <h2>
-            {MONTH_NAMES[month - 1]} {year}
-          </h2>
+    <div id='calendar-page'>
+      <Header
+        activeMonth={month}
+        activeYear={year}
+        onYearChange={setYear}
+        onMonthChange={setMonth}
+        onSetAsToday={setAsToday}
+        onStartAddingExpense={startAddingExpense}
+      />
 
-          <YearPicker activeYear={year} onYearChange={setYear} />
-
-          <span className='divider' />
-
-          <Months activeMonth={month} onMonthClick={setMonth} />
-
-          <span className='divider' />
-
-          <Button onClick={setAsToday} className='today-btn'>
-            Today
-          </Button>
-        </nav>
-
-        <section className='management-and-filters'>
-          <Button onClick={startAddingExpense} className='add-expense-btn'>
-            Add expense
-          </Button>
-        </section>
-
-        <Labels />
-
-        <Days activeMonth={month} activeYear={year} />
-      </div>
+      <Calendar activeMonth={month} activeYear={year} />
 
       {expenseFormDialogState.open && <ExpenseFormDialog onDialogClose={closeExpenseFormDialog} />}
-    </>
+    </div>
   );
 };
 

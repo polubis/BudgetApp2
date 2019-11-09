@@ -3,30 +3,5 @@
 #calendar-page {
   background: $white;
   box-shadow: $thin-shadow;
-
-  .date-navigation {
-    padding: 20px 15px;
-
-    .year-picker {
-      margin-left: auto;
-    }
-
-    .divider {
-      height: 40px;
-      width: 2px;
-      background: $main;
-      margin: 0 20px 0 24px;
-      display: block;
-    }
-  }
-
-  .management-and-filters {
-    padding: 0 15px 15px 15px;
-
-    .add-expense-btn {
-      border: 1px solid $main;
-      color: $main;
-      padding: 8px 15px;
-    }
-  }
+  margin: 20px;
 }
