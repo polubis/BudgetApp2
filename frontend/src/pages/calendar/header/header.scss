@@ -19,9 +19,14 @@
 .management-and-filters {
   padding: 0 15px 15px 15px;
 
-  .add-expense-btn {
+  .add-expense-btn,
+  .set-monthly-limit-btn {
     border: 1px solid $main;
     color: $main;
     padding: 8px 15px;
+  }
+
+  .set-monthly-limit-btn {
+    margin-left: 20px;
   }
 }

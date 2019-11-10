@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { Button, Menu, MenuItem, Tooltip } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 
-import { AVAILABLE_YEARS } from 'models/consts/DateAndTime';
+import { AVAILABLE_YEARS } from 'models/others';
 
 import './year-picker.scss';
 

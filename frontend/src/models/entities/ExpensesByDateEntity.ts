@@ -1,4 +1,4 @@
-import { ExpenseEntity } from "./ExpenseEntity";
+import { ExpenseEntity } from '.';
 
 export interface ExpensesByDateEntity {
   [key: string]: ExpenseEntity[];

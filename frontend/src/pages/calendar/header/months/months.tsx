@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Tooltip } from '@material-ui/core';
 
-import { MONTH_SYMBOLS, MONTH_NAMES } from 'models/consts/DateAndTime';
+import { MONTH_SYMBOLS, MONTH_NAMES } from 'models/others';
 
 import './months.scss';
 

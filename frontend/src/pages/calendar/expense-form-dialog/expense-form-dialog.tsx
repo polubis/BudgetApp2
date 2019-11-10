@@ -17,22 +17,41 @@ import {
 } from '@material-ui/core';
 import { DateTimePicker, MaterialUiPickersDate } from '@material-ui/pickers';
 
-import { DATE_TIME_FORMATS } from 'models/consts/DateAndTime';
+import { DATE_TIME_FORMATS } from 'models/others';
 import { ProvidedExpensesContext, ExpensesContext } from 'providers/ExpensesProvider';
 
-interface ExpenseFormDialog {
+interface ExpenseFormDialogProps {
   onDialogClose: () => void;
 }
 
-const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
+interface ExpenseFormData {
+  name: string;
+  cost: number;
+  date: moment.Moment;
+  description: string;
+}
+
+const ExpenseFormDialog: React.FC<ExpenseFormDialogProps> = ({ onDialogClose }) => {
   const [isAddingExpense, setIsAddingExpense] = useState(false);
-  const [expenseFormData, setExpenseFormData] = useState({
+  const [expenseFormData, setExpenseFormData] = useState<ExpenseFormData>({
     name: '',
     cost: 0.99,
     date: moment(),
     description: ''
   });
   const { handleAddExpense }: ProvidedExpensesContext = useContext(ExpensesContext);
+
+  const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: key, value } = e.target;
+    setExpenseFormData({ ...expenseFormData, [key]: value });
+  };
+
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    if (!date) {
+      return;
+    }
+    setExpenseFormData({ ...expenseFormData, date });
+  };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -50,21 +69,8 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
       .subscribe();
   };
 
-  const handleTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name: key } = e.currentTarget;
-    const { value } = e.target;
-    setExpenseFormData({ ...expenseFormData, [key]: value });
-  };
-
-  const handleDateChange = (date: MaterialUiPickersDate) => {
-    if (!date) {
-      return;
-    }
-    setExpenseFormData({ ...expenseFormData, date });
-  };
-
   return (
-    <Dialog onClose={onDialogClose} aria-labelledby='customized-dialog-title' open>
+    <Dialog onClose={onDialogClose} open>
       {isAddingExpense ? 'Saving' : ''}
       <DialogTitle>Add expense</DialogTitle>
       <DialogContent>
@@ -73,7 +79,7 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
         <Box>
           <FormControl fullWidth>
             <InputLabel htmlFor='expense-name'>Expense name</InputLabel>
-            <Input id='expense-name' name='name' value={expenseFormData.name} onChange={handleTyping} />
+            <Input id='expense-name' name='name' value={expenseFormData.name} onChange={handleFieldChange} />
           </FormControl>
         </Box>
 
@@ -86,14 +92,14 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
               type='number'
               inputProps={{ min: '1', max: '1000000', step: '0.01' }}
               value={expenseFormData.cost}
-              onChange={handleTyping}
+              onChange={handleFieldChange}
             />
           </FormControl>
         </Box>
 
         <Box paddingTop={2}>
           <FormControl fullWidth>
-            <DateTimePicker autoOk ampm={false} value={expenseFormData.date} onChange={handleDateChange} label='Date and time' />
+            <DateTimePicker label='Date and time' autoOk ampm={false} value={expenseFormData.date} onChange={handleDateChange} />
           </FormControl>
         </Box>
 
@@ -107,7 +113,7 @@ const ExpenseFormDialog: React.FC<ExpenseFormDialog> = ({ onDialogClose }) => {
               multiline
               rows={4}
               value={expenseFormData.description}
-              onChange={handleTyping}
+              onChange={handleFieldChange}
             />
             <FormHelperText id='expense-description-text'>Will be needed later when you forget what you spent the money on.</FormHelperText>
           </FormControl>

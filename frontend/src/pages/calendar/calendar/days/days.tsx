@@ -5,7 +5,7 @@ import Day from './day/day';
 
 import { ExpensesByDateEntity } from 'models/entities';
 import { getFirstDayOfMonth, getNumberOfDaysInMonth, toStringMonth, toStringDay } from 'helpers/dateAndTime';
-import { FIRST_MONTH, DAYS_IN_WEEK_COUNT, LAST_MONTH } from 'models/consts/DateAndTime';
+import { FIRST_MONTH, DAYS_IN_WEEK_COUNT, LAST_MONTH } from 'models/others';
 
 import './days.scss';
 

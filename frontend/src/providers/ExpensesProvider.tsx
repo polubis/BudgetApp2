@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AddExpensePayload } from 'models/payloads';
+import { AddExpensePayload, UpdateMonthlyLimitPayload } from 'models/payloads';
 import { ExpenseEntity, ExpensesByDateEntity } from 'models/entities';
 import { expensesService } from 'services';
 
@@ -10,12 +10,14 @@ export interface ProvidedExpensesContext {
   expenses: ExpensesByDateEntity;
   handleGetExpensesByYear(date: number): Observable<ExpensesByDateEntity>;
   handleAddExpense(expense: AddExpensePayload): Observable<ExpenseEntity>;
+  handleUpdateMonthlyLimit(updateMonthlyLimitPayload: UpdateMonthlyLimitPayload, setForEachMonthInYear: boolean): Observable<null>;
 }
 
 const Context = React.createContext<ProvidedExpensesContext>({
   expenses: {},
   handleGetExpensesByYear: () => of({}),
-  handleAddExpense: () => of({} as any)
+  handleAddExpense: () => of({} as any),
+  handleUpdateMonthlyLimit: () => of(null)
 });
 
 const ExpensesProvider: React.FC = ({ children }) => {
@@ -29,16 +31,24 @@ const ExpensesProvider: React.FC = ({ children }) => {
   const handleAddExpense = useCallback(
     (expensePayload: AddExpensePayload): Observable<ExpenseEntity> =>
       expensesService.addExpense(expensePayload).pipe(
-        tap(expense => {
+        tap(() => {
           // TODO: Remove this code after BE implementation
           const newExpenses: ExpensesByDateEntity = { ...expenses };
-          const areExpensesAddedForGivenDate: boolean = Array.isArray(newExpenses[expense.date]);
+          const areExpensesAddedForGivenDate: boolean = Array.isArray(newExpenses[expensePayload.date]);
 
-          newExpenses[expensePayload.date] = areExpensesAddedForGivenDate ? [...newExpenses[expense.date], expense] : [expense];
+          newExpenses[expensePayload.date] = areExpensesAddedForGivenDate
+            ? [...newExpenses[expensePayload.date], { ...expensePayload, id: 10000 }]
+            : [{ ...expensePayload, id: 10000 }];
           setExpenses(newExpenses);
         })
       ),
     [expenses]
+  );
+
+  const handleUpdateMonthlyLimit = useCallback(
+    (updateMonthlyLimitPayload: UpdateMonthlyLimitPayload, setForEachMonthInYear: boolean): Observable<null> =>
+      expensesService.updateMonthlyLimit(updateMonthlyLimitPayload, setForEachMonthInYear),
+    []
   );
 
   return (
@@ -46,7 +56,8 @@ const ExpensesProvider: React.FC = ({ children }) => {
       value={{
         expenses,
         handleGetExpensesByYear,
-        handleAddExpense
+        handleAddExpense,
+        handleUpdateMonthlyLimit
       }}
     >
       {children}

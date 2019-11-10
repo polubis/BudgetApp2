@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import { useHistory, useLocation } from 'react-router';
 
-import { FIRST_MONTH, LAST_MONTH, MIN_YEAR, MAX_YEAR } from 'models/consts/DateAndTime';
+import { FIRST_MONTH, LAST_MONTH, MIN_YEAR, MAX_YEAR } from 'models/others';
 import { PAGES } from 'models/routing';
 
 interface NavigationQueries {

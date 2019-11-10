@@ -4,6 +4,7 @@ import moment from 'moment';
 import Calendar from './calendar/Calendar';
 import ExpenseFormDialog from './expense-form-dialog/expense-form-dialog';
 import Header from './header/header';
+import MonthlyLimitFormDialog from './monthly-limit-form-dialog/monthly-limit-form-dialog';
 
 import ExpensesProvider from 'providers/ExpensesProvider';
 import { useCalendarPageNavigation } from './useCalendarPageNavigation';
@@ -12,6 +13,8 @@ import './CalendarPage.scss';
 
 const CalendarPage: React.FC = () => {
   const [expenseFormDialogState, setExpenseFormDialogState] = useState<Partial<{ open: boolean; payload: any }>>({});
+  const [monthlyLimitFormDialogState, setMonthlyLimitFormDialogState] = useState<Partial<{ open: boolean }>>({});
+
   const { month, year, setQuery } = useCalendarPageNavigation();
 
   const setMonth = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -28,12 +31,20 @@ const CalendarPage: React.FC = () => {
     setQuery(now.month() + 1, now.year());
   };
 
-  const startAddingExpense = useCallback((): void => {
+  const openExpenseFormDialog = useCallback((): void => {
     setExpenseFormDialogState({ open: true });
   }, []);
 
   const closeExpenseFormDialog = useCallback((): void => {
     setExpenseFormDialogState({});
+  }, []);
+
+  const openMonthlyLimitFormDialog = useCallback((): void => {
+    setMonthlyLimitFormDialogState({ open: true });
+  }, []);
+
+  const closeMonthlyLimitFormDialog = useCallback((): void => {
+    setMonthlyLimitFormDialogState({});
   }, []);
 
   return (
@@ -44,12 +55,16 @@ const CalendarPage: React.FC = () => {
         onYearChange={setYear}
         onMonthChange={setMonth}
         onSetAsToday={setAsToday}
-        onStartAddingExpense={startAddingExpense}
+        onAddExpenseClick={openExpenseFormDialog}
+        onSetMonthlyLimitClick={openMonthlyLimitFormDialog}
       />
 
       <Calendar activeMonth={month} activeYear={year} />
 
       {expenseFormDialogState.open && <ExpenseFormDialog onDialogClose={closeExpenseFormDialog} />}
+      {monthlyLimitFormDialogState.open && (
+        <MonthlyLimitFormDialog activeMonth={month} activeYear={year} onDialogClose={closeMonthlyLimitFormDialog} />
+      )}
     </div>
   );
 };

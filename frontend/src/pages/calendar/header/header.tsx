@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import Months from './months/months';
 import YearPicker from './year-picker/year-picker';
 
-import { MONTH_NAMES } from 'models/consts/DateAndTime';
+import { MONTH_NAMES } from 'models/others';
 
 import './header.scss';
 
@@ -15,10 +15,19 @@ interface HeaderProps {
   onYearChange: (year: number) => void;
   onMonthChange: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onSetAsToday: () => void;
-  onStartAddingExpense: () => void;
+  onAddExpenseClick: () => void;
+  onSetMonthlyLimitClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ activeMonth, activeYear, onYearChange, onMonthChange, onSetAsToday, onStartAddingExpense }) => {
+const Header: React.FC<HeaderProps> = ({
+  activeMonth,
+  activeYear,
+  onYearChange,
+  onMonthChange,
+  onSetAsToday,
+  onAddExpenseClick,
+  onSetMonthlyLimitClick
+}) => {
   return (
     <>
       <nav className='date-navigation row'>
@@ -40,8 +49,12 @@ const Header: React.FC<HeaderProps> = ({ activeMonth, activeYear, onYearChange, 
       </nav>
 
       <section className='management-and-filters'>
-        <Button onClick={onStartAddingExpense} className='add-expense-btn'>
+        <Button onClick={onAddExpenseClick} className='add-expense-btn'>
           Add expense
+        </Button>
+
+        <Button onClick={onSetMonthlyLimitClick} className='set-monthly-limit-btn'>
+          Set monthly limit
         </Button>
       </section>
     </>
